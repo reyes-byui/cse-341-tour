@@ -3,11 +3,11 @@ const { body } = require('express-validator');
 const router = express.Router();
 const { ensureAuthenticated } = require('../middleware/auth'); 
 
-const packagesController = require('../controllers/packagesController'); // Corrected variable name
+const packagesController = require('../controllers/packagesController'); 
 
-router.get('/', packagesController.getAll); // Public route
+router.get('/', packagesController.getAll); 
 
-router.get('/:id', packagesController.getSingle); // Public route
+router.get('/:id', packagesController.getSingle);
 
 router.post('/', ensureAuthenticated,
     [

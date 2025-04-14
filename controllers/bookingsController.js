@@ -1,6 +1,6 @@
 const mongodb = require('../data/database');
 const { ObjectId } = require('mongodb');
-const { validationResult } = require('express-validator'); // Import validationResult
+const { validationResult } = require('express-validator'); 
 const { ensureAuthenticated } = require('../middleware/auth');
 
 const getAll = async (req, res) => {
@@ -108,10 +108,8 @@ const deleteBooking = async (req, res) => {
             return res.status(404).json({ message: 'Booking not found' });
         }
 
-        // Move booking to trash collection
         await db.collection('bookings_trash').insertOne({ ...booking, deletedAt: new Date() });
 
-        // Delete booking from the original collection
         await db.collection('bookings').deleteOne({ _id: new ObjectId(bookingId) });
 
         res.status(200).json({ message: 'Booking moved to trash successfully' });

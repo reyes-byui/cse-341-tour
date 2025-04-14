@@ -53,10 +53,8 @@ const recoverBooking = async (req, res) => {
                 return res.status(404).json({ message: 'Booking not found in trash' });
             }
 
-            // Restore booking to the original collection
             await db.collection('bookings').insertOne({ ...booking, restoredAt: new Date() });
 
-            // Remove booking from the trash collection
             await db.collection('bookings_trash').deleteOne({ _id: new ObjectId(bookingId) });
 
             res.status(200).json({ message: 'Booking recovered successfully' });

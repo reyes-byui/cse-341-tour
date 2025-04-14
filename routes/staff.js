@@ -4,7 +4,6 @@ const router = express.Router();
 const { ensureAuthenticated } = require('../middleware/auth'); 
 
 const staffController = require('../controllers/staffController');
-const staffTrashController = require('../controllers/staffTrashController');
 
 router.get('/', ensureAuthenticated, staffController.getAll);
 
@@ -28,14 +27,8 @@ router.put('/:id', ensureAuthenticated,
         body('lastName').notEmpty().withMessage('Last name is required'),
         body('email').isEmail().withMessage('Valid email is required'),
         body('position').notEmpty().withMessage('Position is required')
-    ],staffController.updateStaff);
+    ], staffController.updateStaff);
 
 router.delete('/:id', ensureAuthenticated, staffController.deleteStaff);
-
-// Recover a staff member from trash
-router.post('/trash/recover/:id', ensureAuthenticated, staffTrashController.recoverStaff);
-
-// Permanently delete a staff member from trash
-router.delete('/trash/:id', ensureAuthenticated, staffTrashController.deletePermanently);
 
 module.exports = router;

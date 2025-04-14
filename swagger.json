@@ -697,7 +697,10 @@
         "description": "Recover all staff members from the trash.",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "All staff recovered successfully"
+          },
+          "404": {
+            "description": "No staff found in trash"
           },
           "500": {
             "description": "Internal Server Error"

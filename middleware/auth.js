@@ -1,6 +1,6 @@
 function ensureAuthenticated(req, res, next) {
-    console.log('Session:', req.session); // Debug log for session
-    console.log('User:', req.session.user); // Debug log for user
+    console.log('Session:', req.session);
+    console.log('User:', req.session.user);
 
     if (req.session.user && req.session.user.username === 'reyes-byui') {
         return next(); 

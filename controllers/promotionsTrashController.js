@@ -53,10 +53,8 @@ const recoverPromotion = async (req, res) => {
                 return res.status(404).json({ message: 'Promotion not found in trash' });
             }
 
-            // Restore promotion to the original collection
             await db.collection('promotions').insertOne({ ...promotion, restoredAt: new Date() });
 
-            // Remove promotion from the trash collection
             await db.collection('promotions_trash').deleteOne({ _id: new ObjectId(promotionId) });
 
             res.status(200).json({ message: 'Promotion recovered successfully' });

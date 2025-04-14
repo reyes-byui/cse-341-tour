@@ -108,10 +108,8 @@ const deletePackage = async (req, res) => {
             return res.status(404).json({ message: 'Package not found' });
         }
 
-        // Move package to trash collection
         await db.collection('packages_trash').insertOne({ ...package, deletedAt: new Date() });
 
-        // Delete package from the original collection
         await db.collection('packages').deleteOne({ _id: new ObjectId(packageId) });
 
         res.status(200).json({ message: 'Package moved to trash successfully' });

@@ -105,10 +105,8 @@ const deleteStaff = async (req, res) => {
             return res.status(404).json({ message: 'Staff not found' });
         }
 
-        // Move staff to trash collection
         await db.collection('staff_trash').insertOne({ ...staff, deletedAt: new Date() });
 
-        // Delete staff from the original collection
         await db.collection('staff').deleteOne({ _id: new ObjectId(staffId) });
 
         res.status(200).json({ message: 'Staff moved to trash successfully' });

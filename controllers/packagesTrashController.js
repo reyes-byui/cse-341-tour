@@ -53,10 +53,8 @@ const recoverPackage = async (req, res) => {
                 return res.status(404).json({ message: 'Package not found in trash' });
             }
 
-            // Restore package to the original collection
             await db.collection('packages').insertOne({ ...package, restoredAt: new Date() });
 
-            // Remove package from the trash collection
             await db.collection('packages_trash').deleteOne({ _id: new ObjectId(packageId) });
 
             res.status(200).json({ message: 'Package recovered successfully' });

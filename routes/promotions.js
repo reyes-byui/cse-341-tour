@@ -1,12 +1,13 @@
 const express = require('express');
-const { body } = require('express-validator'); // Import validation functions
+const { body } = require('express-validator'); 
 const router = express.Router();
-const { ensureAuthenticated } = require('../middleware/auth'); // Import authentication middleware
+const { ensureAuthenticated } = require('../middleware/auth'); 
+
 const promotionsController = require('../controllers/promotionsController');
 
-// Define routes for promotions
-router.get('/', promotionsController.getAll); // Public route
-router.get('/:id', promotionsController.getSingle); // Public route
+router.get('/', promotionsController.getAll); 
+
+router.get('/:id', promotionsController.getSingle);
 
 router.post('/', ensureAuthenticated,
     [
