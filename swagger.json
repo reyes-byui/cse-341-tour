@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Tour Management API",
-    "description": "API for Managing Staff, Packages, Bookings and Promotions",
+    "description": "API for Managing Staff, Packages, Bookings, Promotions, and Trash Collections",
     "version": "1.0.0"
   },
   "host": "cse-341-final-kh0d.onrender.com",
@@ -601,6 +601,442 @@
         "tags": ["Manage Promotions"],
         "summary": "Delete a promotion by ID",
         "description": "Remove a specific promotion from the database by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the promotion."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/staff-trash": {
+      "get": {
+        "tags": ["Manage Staff Trash"],
+        "summary": "Get all staff in trash",
+        "description": "Retrieve a list of all staff members in the trash.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/staff-trash/{id}": {
+      "get": {
+        "tags": ["Manage Staff Trash"],
+        "summary": "Get a staff member from trash by ID",
+        "description": "Retrieve a specific staff member from the trash by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the staff member."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Manage Staff Trash"],
+        "summary": "Permanently delete a staff member from trash",
+        "description": "Remove a specific staff member from the trash by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the staff member."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/staff-trash/recover": {
+      "post": {
+        "tags": ["Manage Staff Trash"],
+        "summary": "Recover all staff from trash",
+        "description": "Recover all staff members from the trash.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/staff-trash/recover/{id}": {
+      "post": {
+        "tags": ["Manage Staff Trash"],
+        "summary": "Recover a staff member from trash by ID",
+        "description": "Recover a specific staff member from the trash by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the staff member."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/packages-trash": {
+      "get": {
+        "tags": ["Manage Packages Trash"],
+        "summary": "Get all packages in trash",
+        "description": "Retrieve a list of all packages in the trash.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/packages-trash/{id}": {
+      "get": {
+        "tags": ["Manage Packages Trash"],
+        "summary": "Get a package from trash by ID",
+        "description": "Retrieve a specific package from the trash by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the package."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Manage Packages Trash"],
+        "summary": "Permanently delete a package from trash",
+        "description": "Remove a specific package from the trash by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the package."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/packages-trash/recover": {
+      "post": {
+        "tags": ["Manage Packages Trash"],
+        "summary": "Recover all packages from trash",
+        "description": "Recover all packages from the trash.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/packages-trash/recover/{id}": {
+      "post": {
+        "tags": ["Manage Packages Trash"],
+        "summary": "Recover a package from trash by ID",
+        "description": "Recover a specific package from the trash by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the package."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/bookings-trash": {
+      "get": {
+        "tags": ["Manage Bookings Trash"],
+        "summary": "Get all bookings in trash",
+        "description": "Retrieve a list of all bookings in the trash.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/bookings-trash/{id}": {
+      "get": {
+        "tags": ["Manage Bookings Trash"],
+        "summary": "Get a booking from trash by ID",
+        "description": "Retrieve a specific booking from the trash by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the booking."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Manage Bookings Trash"],
+        "summary": "Permanently delete a booking from trash",
+        "description": "Remove a specific booking from the trash by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the booking."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/bookings-trash/recover": {
+      "post": {
+        "tags": ["Manage Bookings Trash"],
+        "summary": "Recover all bookings from trash",
+        "description": "Recover all bookings from the trash.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/bookings-trash/recover/{id}": {
+      "post": {
+        "tags": ["Manage Bookings Trash"],
+        "summary": "Recover a booking from trash by ID",
+        "description": "Recover a specific booking from the trash by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the booking."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/promotions-trash": {
+      "get": {
+        "tags": ["Manage Promotions Trash"],
+        "summary": "Get all promotions in trash",
+        "description": "Retrieve a list of all promotions in the trash.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/promotions-trash/{id}": {
+      "get": {
+        "tags": ["Manage Promotions Trash"],
+        "summary": "Get a promotion from trash by ID",
+        "description": "Retrieve a specific promotion from the trash by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the promotion."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Manage Promotions Trash"],
+        "summary": "Permanently delete a promotion from trash",
+        "description": "Remove a specific promotion from the trash by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the promotion."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/promotions-trash/recover": {
+      "post": {
+        "tags": ["Manage Promotions Trash"],
+        "summary": "Recover all promotions from trash",
+        "description": "Recover all promotions from the trash.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/promotions-trash/recover/{id}": {
+      "post": {
+        "tags": ["Manage Promotions Trash"],
+        "summary": "Recover a promotion from trash by ID",
+        "description": "Recover a specific promotion from the trash by its ID.",
         "parameters": [
           {
             "name": "id",
