@@ -5,9 +5,9 @@ const doc = {
         title: "Tour Management API",
         description: "API for Managing Staff, Packages, Bookings and Promotions"
     },
-    host: "localhost:3001", 
+    host: "cse-341-final-kh0d.onrender.com", 
     basePath: "/", 
-    schemes: ["http"]
+    schemes: ["https"]
 };
 
 const outputFile = './swagger.json';
