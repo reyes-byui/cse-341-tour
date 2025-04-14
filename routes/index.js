@@ -67,4 +67,10 @@ router.use('/packages', require('./packages'));
 router.use('/bookings', require('./bookings'));
 router.use('/promotions', require('./promotions'));
 
+// Add routes for trash collections
+router.use('/staff-trash', require('./staffTrash'));
+router.use('/packages-trash', require('./packagesTrash'));
+router.use('/bookings-trash', require('./bookingsTrash'));
+router.use('/promotions-trash', require('./promotionsTrash'));
+
 module.exports = router;

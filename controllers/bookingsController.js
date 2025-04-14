@@ -94,23 +94,30 @@ const updateBooking = async (req, res) => {
 };
 
 const deleteBooking = async (req, res) => {
-    ensureAuthenticated(req, res, async () => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+    const bookingId = req.params.id;
+
+    if (!ObjectId.isValid(bookingId)) {
+        return res.status(400).json({ message: 'Invalid booking ID format' });
+    }
+
+    try {
+        const db = mongodb.getDb();
+        const booking = await db.collection('bookings').findOne({ _id: new ObjectId(bookingId) });
+
+        if (!booking) {
+            return res.status(404).json({ message: 'Booking not found' });
         }
 
-        const bookingId = req.params.id;
-        try {
-            const result = await mongodb.getDb().collection('bookings').deleteOne({ _id: new ObjectId(bookingId) });
-            if (result.deletedCount === 0) {
-                return res.status(404).json({ message: 'Booking not found' });
-            }
-            res.status(200).json({ message: 'Booking deleted successfully' });
-        } catch (error) {
-            res.status(500).json({ message: 'Error deleting booking', error });
-        }
-    });
+        // Move booking to trash collection
+        await db.collection('bookings_trash').insertOne({ ...booking, deletedAt: new Date() });
+
+        // Delete booking from the original collection
+        await db.collection('bookings').deleteOne({ _id: new ObjectId(bookingId) });
+
+        res.status(200).json({ message: 'Booking moved to trash successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting booking', error });
+    }
 };
 
 module.exports = {

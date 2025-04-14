@@ -100,23 +100,30 @@ const updatePromotion = async (req, res) => {
 };
 
 const deletePromotion = async (req, res) => {
-    ensureAuthenticated(req, res, async () => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+    const promotionId = req.params.id;
+
+    if (!ObjectId.isValid(promotionId)) {
+        return res.status(400).json({ message: 'Invalid promotion ID format' });
+    }
+
+    try {
+        const db = mongodb.getDb();
+        const promotion = await db.collection('promotions').findOne({ _id: new ObjectId(promotionId) });
+
+        if (!promotion) {
+            return res.status(404).json({ message: 'Promotion not found' });
         }
 
-        const promotionId = req.params.id;
-        try {
-            const result = await mongodb.getDb().collection('promotions').deleteOne({ _id: new ObjectId(promotionId) });
-            if (result.deletedCount === 0) {
-                return res.status(404).json({ message: 'Promotion not found' });
-            }
-            res.status(200).json({ message: 'Promotion deleted successfully' });
-        } catch (error) {
-            res.status(500).json({ message: 'Error deleting promotion', error });
-        }
-    });
+        // Move promotion to trash collection
+        await db.collection('promotions_trash').insertOne({ ...promotion, deletedAt: new Date() });
+
+        // Delete promotion from the original collection
+        await db.collection('promotions').deleteOne({ _id: new ObjectId(promotionId) });
+
+        res.status(200).json({ message: 'Promotion moved to trash successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting promotion', error });
+    }
 };
 
 module.exports = {

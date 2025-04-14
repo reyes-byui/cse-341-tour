@@ -94,23 +94,30 @@ const updatePackage = async (req, res) => {
 };
 
 const deletePackage = async (req, res) => {
-    ensureAuthenticated(req, res, async () => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+    const packageId = req.params.id;
+
+    if (!ObjectId.isValid(packageId)) {
+        return res.status(400).json({ message: 'Invalid package ID format' });
+    }
+
+    try {
+        const db = mongodb.getDb();
+        const package = await db.collection('packages').findOne({ _id: new ObjectId(packageId) });
+
+        if (!package) {
+            return res.status(404).json({ message: 'Package not found' });
         }
 
-        const packageId = req.params.id;
-        try {
-            const result = await mongodb.getDb().collection('packages').deleteOne({ _id: new ObjectId(packageId) });
-            if (result.deletedCount === 0) {
-                return res.status(404).json({ message: 'Package not found' });
-            }
-            res.status(200).json({ message: 'Package deleted successfully' });
-        } catch (error) {
-            res.status(500).json({ message: 'Error deleting package', error });
-        }
-    });
+        // Move package to trash collection
+        await db.collection('packages_trash').insertOne({ ...package, deletedAt: new Date() });
+
+        // Delete package from the original collection
+        await db.collection('packages').deleteOne({ _id: new ObjectId(packageId) });
+
+        res.status(200).json({ message: 'Package moved to trash successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting package', error });
+    }
 };
 
 module.exports = {
