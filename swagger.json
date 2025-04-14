@@ -5,10 +5,10 @@
     "description": "API for Managing Staff, Packages, Bookings and Promotions",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "cse-341-final-kh0d.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/": {
