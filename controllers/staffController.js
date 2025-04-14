@@ -36,13 +36,17 @@ const createStaff = async (req, res) => {
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
+
+        // Extract staff details from the request body
+        const { userName, password, firstName, lastName, email, position } = req.body;
+
         const staff = {
-            userName: "jdfktu13",
-            password: "njjdjfl134f",
-            firstName: "Jake",
-            lastName: "Blake",
-            email: "jblake@streetlife.com",
-            position: "Marketing Director"
+            userName,
+            password,
+            firstName,
+            lastName,
+            email,
+            position
         };
 
         try {
@@ -87,27 +91,30 @@ const updateStaff = async (req, res) => {
 };
 
 const deleteStaff = async (req, res) => {
-    ensureAuthenticated(req, res, async () => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
-        const staffId = req.params.id;
+    const staffId = req.params.id;
 
-        if (!ObjectId.isValid(staffId)) {
-            return res.status(400).json({ message: 'Invalid staff ID format' });
+    if (!ObjectId.isValid(staffId)) {
+        return res.status(400).json({ message: 'Invalid staff ID format' });
+    }
+
+    try {
+        const db = mongodb.getDb();
+        const staff = await db.collection('staff').findOne({ _id: new ObjectId(staffId) });
+
+        if (!staff) {
+            return res.status(404).json({ message: 'Staff not found' });
         }
 
-        try {
-            const result = await mongodb.getDb().collection('staff').deleteOne({ _id: new ObjectId(staffId) });
-            if (result.deletedCount === 0) {
-                return res.status(404).json({ message: 'Staff not found' });
-            }
-            res.status(200).json({ message: 'Staff deleted successfully' });
-        } catch (error) {
-            res.status(500).json({ message: 'Error deleting staff', error });
-        }
-    });
+        // Move staff to trash collection
+        await db.collection('staff_trash').insertOne({ ...staff, deletedAt: new Date() });
+
+        // Delete staff from the original collection
+        await db.collection('staff').deleteOne({ _id: new ObjectId(staffId) });
+
+        res.status(200).json({ message: 'Staff moved to trash successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting staff', error });
+    }
 };
 
 module.exports = {
