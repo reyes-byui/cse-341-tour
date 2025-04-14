@@ -1,0 +1,23 @@
+GET http://localhost:3000
+
+###
+GET http://localhost:3000/staff
+
+###
+GET http://localhost:3000/staff/67f79f98e1ff6475709bfce9
+
+###
+GET http://localhost:3000/staff/67f79f98e1ff6475709bfce9?fields=Hanna,Morales
+
+###
+POST http://localhost:3000/staff HTTP/1.1
+Content-Type: application/json
+
+{
+    "userName":"jdfktu13",
+    "password":"njjdjfl134f",
+    "firstName":"Jake",
+    "lastName":"Blake",
+    "email":"jblake@streetlife.com",
+    "position":"Marketing Director"
+}

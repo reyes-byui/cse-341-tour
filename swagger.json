@@ -1,0 +1,172 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Tour Management API",
+    "description": "API for Managing Staff, Packages, Bookings and Promotions",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3001",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "tags": ["Default"],
+        "summary": "Homepage",
+        "description": "Welcome to the home page!",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/staff": {
+      "get": {
+        "tags": ["Manage Staff"],
+        "summary": "Get all staff",
+        "description": "Retrieve a list of all staff members.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Manage Staff"],
+        "summary": "Add a new staff member",
+        "description": "Create a new staff member in the database.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userName": { "type": "string", "example": "jdoe" },
+                "password": { "type": "string", "example": "password123" },
+                "firstName": { "type": "string", "example": "John" },
+                "lastName": { "type": "string", "example": "Doe" },
+                "email": { "type": "string", "example": "jdoe@example.com" },
+                "position": { "type": "string", "example": "Manager" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/staff/{id}": {
+      "get": {
+        "tags": ["Manage Staff"],
+        "summary": "Get a staff member by ID",
+        "description": "Retrieve a specific staff member by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the staff member."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Manage Staff"],
+        "summary": "Update a staff member by ID",
+        "description": "Update the details of a specific staff member by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the staff member."
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userName": { "type": "string", "example": "jdoe" },
+                "password": { "type": "string", "example": "password123" },
+                "firstName": { "type": "string", "example": "John" },
+                "lastName": { "type": "string", "example": "Doe" },
+                "email": { "type": "string", "example": "jdoe@example.com" },
+                "position": { "type": "string", "example": "Manager" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Manage Staff"],
+        "summary": "Delete a staff member by ID",
+        "description": "Remove a specific staff member from the database by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the staff member."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  }
+}
