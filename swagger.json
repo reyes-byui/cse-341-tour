@@ -5,7 +5,7 @@
     "description": "API for Managing Staff, Packages, Bookings and Promotions",
     "version": "1.0.0"
   },
-  "host": "localhost:3001",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
     "http"
