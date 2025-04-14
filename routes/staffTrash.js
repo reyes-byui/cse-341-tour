@@ -5,7 +5,6 @@ const staffTrashController = require('../controllers/staffTrashController');
 
 router.get('/', ensureAuthenticated, staffTrashController.getAll);
 router.get('/:id', ensureAuthenticated, staffTrashController.getSingle);
-router.post('/recover', ensureAuthenticated, staffTrashController.recoverAll); // Added recoverAll route
 router.post('/recover/:id', ensureAuthenticated, staffTrashController.recoverStaff);
 router.delete('/:id', ensureAuthenticated, staffTrashController.deletePermanently);
 

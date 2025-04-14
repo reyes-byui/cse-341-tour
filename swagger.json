@@ -690,24 +690,6 @@
         }
       }
     },
-    "/staff-trash/recover": {
-      "post": {
-        "tags": ["Manage Staff Trash"],
-        "summary": "Recover all staff from trash",
-        "description": "Recover all staff members from the trash.",
-        "responses": {
-          "200": {
-            "description": "All staff recovered successfully"
-          },
-          "404": {
-            "description": "No staff found in trash"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
     "/staff-trash/recover/{id}": {
       "post": {
         "tags": ["Manage Staff Trash"],
@@ -795,21 +777,6 @@
           },
           "404": {
             "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/packages-trash/recover": {
-      "post": {
-        "tags": ["Manage Packages Trash"],
-        "summary": "Recover all packages from trash",
-        "description": "Recover all packages from the trash.",
-        "responses": {
-          "200": {
-            "description": "OK"
           },
           "500": {
             "description": "Internal Server Error"
@@ -911,21 +878,6 @@
         }
       }
     },
-    "/bookings-trash/recover": {
-      "post": {
-        "tags": ["Manage Bookings Trash"],
-        "summary": "Recover all bookings from trash",
-        "description": "Recover all bookings from the trash.",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
     "/bookings-trash/recover/{id}": {
       "post": {
         "tags": ["Manage Bookings Trash"],
@@ -1013,21 +965,6 @@
           },
           "404": {
             "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/promotions-trash/recover": {
-      "post": {
-        "tags": ["Manage Promotions Trash"],
-        "summary": "Recover all promotions from trash",
-        "description": "Recover all promotions from the trash.",
-        "responses": {
-          "200": {
-            "description": "OK"
           },
           "500": {
             "description": "Internal Server Error"

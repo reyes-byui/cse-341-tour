@@ -64,31 +64,6 @@ const recoverStaff = async (req, res) => {
     });
 };
 
-const recoverAll = async (req, res) => {
-    ensureAuthenticated(req, res, async () => {
-        try {
-            const db = mongodb.getDb();
-            const staffTrash = await db.collection('staff_trash').find().toArray();
-
-            if (staffTrash.length === 0) {
-                return res.status(404).json({ message: 'No staff found in trash' });
-            }
-
-            const restoredStaff = staffTrash.map(staff => ({
-                ...staff,
-                restoredAt: new Date()
-            }));
-            await db.collection('staff').insertMany(restoredStaff);
-
-            await db.collection('staff_trash').deleteMany({});
-
-            res.status(200).json({ message: 'All staff recovered successfully' });
-        } catch (error) {
-            res.status(500).json({ message: 'Error recovering all staff', error });
-        }
-    });
-};
-
 const deletePermanently = async (req, res) => {
     ensureAuthenticated(req, res, async () => {
         const staffId = req.params.id;
@@ -116,6 +91,5 @@ module.exports = {
     getAll,
     getSingle,
     recoverStaff,
-    recoverAll,
     deletePermanently
 };
