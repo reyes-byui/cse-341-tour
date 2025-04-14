@@ -167,6 +167,461 @@
           }
         }
       }
+    },
+    "/packages": {
+      "get": {
+        "tags": ["Manage Packages"],
+        "summary": "Get all packages",
+        "description": "Retrieve a list of all packages.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Manage Packages"],
+        "summary": "Add a new package",
+        "description": "Create a new package in the database.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "example": "Adventure Package" },
+                "continent": { "type": "string", "example": "Asia" },
+                "country": { "type": "string", "example": "India" },
+                "price": { "type": "number", "example": 1200 },
+                "pax": { "type": "number", "example": 4 },
+                "inclusion": { "type": "string", "example": "Flights, Hotels, Meals" },
+                "description": { "type": "string", "example": "A thrilling adventure package." },
+                "availability": { "type": "boolean", "example": true },
+                "packageCode": { "type": "string", "example": "ADV123" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/packages/{id}": {
+      "get": {
+        "tags": ["Manage Packages"],
+        "summary": "Get a package by ID",
+        "description": "Retrieve a specific package by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the package."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Manage Packages"],
+        "summary": "Update a package by ID",
+        "description": "Update the details of a specific package by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the package."
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "example": "Adventure Package" },
+                "continent": { "type": "string", "example": "Asia" },
+                "country": { "type": "string", "example": "India" },
+                "price": { "type": "number", "example": 1200 },
+                "pax": { "type": "number", "example": 4 },
+                "inclusion": { "type": "string", "example": "Flights, Hotels, Meals" },
+                "description": { "type": "string", "example": "A thrilling adventure package." },
+                "availability": { "type": "boolean", "example": true },
+                "packageCode": { "type": "string", "example": "ADV123" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Manage Packages"],
+        "summary": "Delete a package by ID",
+        "description": "Remove a specific package from the database by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the package."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/bookings": {
+      "get": {
+        "tags": ["Manage Bookings"],
+        "summary": "Get all bookings",
+        "description": "Retrieve a list of all bookings.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Manage Bookings"],
+        "summary": "Add a new booking",
+        "description": "Create a new booking in the database.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "packageCode": { "type": "string", "example": "ADV123" },
+                "firstName": { "type": "string", "example": "John" },
+                "lastName": { "type": "string", "example": "Doe" },
+                "email": { "type": "string", "example": "johndoe@example.com" },
+                "price": { "type": "number", "example": 1200 },
+                "discount": { "type": "number", "example": 100 },
+                "paymentStatus": { "type": "string", "example": "Paid" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/bookings/{id}": {
+      "get": {
+        "tags": ["Manage Bookings"],
+        "summary": "Get a booking by ID",
+        "description": "Retrieve a specific booking by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the booking."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Manage Bookings"],
+        "summary": "Update a booking by ID",
+        "description": "Update the details of a specific booking by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the booking."
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "packageCode": { "type": "string", "example": "ADV123" },
+                "firstName": { "type": "string", "example": "John" },
+                "lastName": { "type": "string", "example": "Doe" },
+                "email": { "type": "string", "example": "johndoe@example.com" },
+                "price": { "type": "number", "example": 1200 },
+                "discount": { "type": "number", "example": 100 },
+                "paymentStatus": { "type": "string", "example": "Paid" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Manage Bookings"],
+        "summary": "Delete a booking by ID",
+        "description": "Remove a specific booking from the database by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the booking."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/promotions": {
+      "get": {
+        "tags": ["Manage Promotions"],
+        "summary": "Get all promotions",
+        "description": "Retrieve a list of all promotions.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Manage Promotions"],
+        "summary": "Add a new promotion",
+        "description": "Create a new promotion in the database.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "example": "10D/9N IN NORWAY" },
+                "continent": { "type": "string", "example": "Europe" },
+                "country": { "type": "string", "example": "Norway" },
+                "price": { "type": "number", "example": 5000 },
+                "pax": { "type": "number", "example": 2 },
+                "inclusions": { "type": "string", "example": "all day transfers, accommodation, breakfast, train pass, private tour" },
+                "description": { "type": "string", "example": "Royal Palace, Oslo Opera House, Akershus Fortress, Karl Johans Gate" },
+                "availability": { "type": "number", "example": 5 },
+                "discountRate": { "type": "number", "example": 100 },
+                "packageCode": { "type": "string", "example": "EUNRWY-A2025" },
+                "startDate": { "type": "string", "example": "04-01-2025" },
+                "endDate": { "type": "string", "example": "12-02-2025" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/promotions/{id}": {
+      "get": {
+        "tags": ["Manage Promotions"],
+        "summary": "Get a promotion by ID",
+        "description": "Retrieve a specific promotion by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the promotion."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Manage Promotions"],
+        "summary": "Update a promotion by ID",
+        "description": "Update the details of a specific promotion by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the promotion."
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "example": "10D/9N IN NORWAY" },
+                "continent": { "type": "string", "example": "Europe" },
+                "country": { "type": "string", "example": "Norway" },
+                "price": { "type": "number", "example": 5000 },
+                "pax": { "type": "number", "example": 2 },
+                "inclusions": { "type": "string", "example": "all day transfers, accommodation, breakfast, train pass, private tour" },
+                "description": { "type": "string", "example": "Royal Palace, Oslo Opera House, Akershus Fortress, Karl Johans Gate" },
+                "availability": { "type": "number", "example": 5 },
+                "discountRate": { "type": "number", "example": 100 },
+                "packageCode": { "type": "string", "example": "EUNRWY-A2025" },
+                "startDate": { "type": "string", "example": "04-01-2025" },
+                "endDate": { "type": "string", "example": "12-02-2025" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Manage Promotions"],
+        "summary": "Delete a promotion by ID",
+        "description": "Remove a specific promotion from the database by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the promotion."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
     }
   }
 }

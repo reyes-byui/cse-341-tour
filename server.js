@@ -10,8 +10,12 @@ const PORT = process.env.PORT || 3001;
 
 app.use(bodyParser.json());
 
+const promotionsRoutes = require('./routes/promotions'); // Import promotions routes
+
 // Swagger UI Route
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+app.use('/promotions', promotionsRoutes); // Register promotions routes
 
 app.use('/', require('./routes/index'));
 
