@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongodb = require('../data/database');
+const { ensureAuthenticated } = require('../middleware/auth'); // Import ensureAuthenticated middleware
 
 router.use('/', require('./swagger'));
 
@@ -9,7 +10,7 @@ router.get('/', (req, res) => {
     res.send('Welcome to the home page!');
 });
 
-router.get('/staff', async (req, res) => {
+router.get('/staff', ensureAuthenticated, async (req, res) => {
     try {
         const db = mongodb.getDb();
         console.log('Connected to database:', db.databaseName); // Log the database name
@@ -35,7 +36,7 @@ router.get('/packages', async (req, res) => {
     }
 });
 
-router.get('/bookings', async (req, res) => {
+router.get('/bookings', ensureAuthenticated, async (req, res) => {
     try {
         const db = mongodb.getDb();
         console.log('Connected to database:', db.databaseName); // Log the database name
@@ -48,8 +49,22 @@ router.get('/bookings', async (req, res) => {
     }
 });
 
+router.get('/promotions', async (req, res) => {
+    try {
+        const db = mongodb.getDb();
+        console.log('Connected to database:', db.databaseName); // Log the database name
+        const promotions = await db.collection('promotions').find().toArray();
+        console.log('Promotions collection data:', promotions); // Log the retrieved data
+        res.status(200).json(promotions);
+    } catch (error) {
+        console.error('Error retrieving promotions:', error); // Log the error for debugging
+        res.status(500).json({ message: 'Error retrieving promotions', error });
+    }
+});
+
 router.use('/staff', require('./staff'));
 router.use('/packages', require('./packages'));
 router.use('/bookings', require('./bookings'));
+router.use('/promotions', require('./promotions'));
 
 module.exports = router;

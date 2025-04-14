@@ -7,16 +7,16 @@ const cors = require('cors');
 const passport = require('passport');
 const session = require('express-session');
 const GitHubStrategy = require('passport-github2').Strategy;
-const { ObjectId } = require('mongodb'); // Import ObjectId for MongoDB operations
+const { ObjectId } = require('mongodb');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Apply CORS Headers Globally
 app.use(cors({
-    origin: '*', // Allow all origins. Replace '*' with specific origins if needed.
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed HTTP methods
-    allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 app.use(bodyParser.json());
@@ -25,8 +25,8 @@ app.use(bodyParser.json());
 app.use(session({
     secret: 'secret',
     resave: false,
-    saveUninitialized: false, // Ensure session is not saved unless modified
-    cookie: { secure: false } // Set to true if using HTTPS
+    saveUninitialized: false,
+    cookie: { secure: false } // Ensure secure is false for non-HTTPS environments
 }));
 
 // Passport Configuration
@@ -39,19 +39,19 @@ passport.use(new GitHubStrategy({
     callbackURL: process.env.CALLBACK_URL
 },
     function (accessToken, refreshToken, profile, done) {
-        // Log the profile object for debugging
         console.log('GitHub Profile:', profile);
-
-        // Ensure displayName is set, fallback to username or other properties
         profile.displayName = profile.displayName || profile.username || profile.id;
         return done(null, profile);
     }
 ));
 
 passport.serializeUser((user, done) => {
+    console.log('Serializing user:', user);
     done(null, user);
 });
+
 passport.deserializeUser((user, done) => {
+    console.log('Deserializing user:', user);
     done(null, user);
 });
 
@@ -59,6 +59,7 @@ passport.deserializeUser((user, done) => {
 function ensureAuthenticated(req, res, next) {
     console.log('Session:', req.session); // Debug log for session
     console.log('User:', req.user); // Debug log for user
+    console.log('Is Authenticated:', req.isAuthenticated()); // Debug log for authentication status
 
     if (req.isAuthenticated() && req.user.username === 'reyes-byui') {
         return next();
@@ -88,7 +89,9 @@ app.get('/login', passport.authenticate('github', { scope: ['user:email'] }));
 // GitHub OAuth Callback
 app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/' }),
     (req, res) => {
-        console.log('GitHub Login Successful:', req.user); // Debug log for user after login
+        console.log('GitHub Login Successful:', req.user);
+        req.session.user = req.user;
+        console.log('Session after login:', req.session);
         res.redirect('/');
     }
 );
@@ -108,11 +111,14 @@ app.get('/logout', (req, res) => {
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Example Protected CRUD Routes
-app.post('/data', ensureAuthenticated, async (req, res) => {
+app.post('/data/:collection', ensureAuthenticated, async (req, res) => {
     try {
-        console.log('POST /data called by user:', req.user); // Debug log
+        const collectionName = req.params.collection; // Dynamically get the collection name
+        console.log(`POST /data/${collectionName} called by user:`, req.user);
+
         const db = mongodb.getDatabase().db('final');
-        const result = await db.collection('staff').insertOne(req.body);
+        const result = await db.collection(collectionName).insertOne(req.body);
+
         res.status(201).json({ message: 'POST request successful', data: result });
     } catch (err) {
         console.error('POST Error:', err);
@@ -120,21 +126,75 @@ app.post('/data', ensureAuthenticated, async (req, res) => {
     }
 });
 
-app.put('/data', ensureAuthenticated, async (req, res) => {
+app.put('/data/:collection', ensureAuthenticated, async (req, res) => {
     try {
+        const collectionName = req.params.collection;
         if (!req.body._id) {
             return res.status(400).json({ error: '_id is required for PUT operation.' });
         }
+
         const db = mongodb.getDatabase().db('final');
-        const result = await db.collection('staff').updateOne(
+        const result = await db.collection(collectionName).updateOne(
             { _id: new ObjectId(req.body._id) },
             { $set: req.body }
         );
+
         if (result.matchedCount === 0) {
             return res.status(404).json({ error: 'No document found with the provided _id.' });
         }
+
         res.status(200).json({ message: 'PUT request successful', data: result });
     } catch (err) {
+        console.error('PUT Error:', err);
+        res.status(500).json({ error: 'An internal server error occurred.' });
+    }
+});
+
+// Protected GET route for staff
+app.get('/data/staff', ensureAuthenticated, async (req, res) => {
+    try {
+        const db = mongodb.getDatabase().db('final');
+        const data = await db.collection('staff').find().toArray();
+        res.status(200).json({ message: 'GET request successful', data });
+    } catch (err) {
+        console.error('GET Error:', err);
+        res.status(500).json({ error: 'An internal server error occurred.' });
+    }
+});
+
+// Protected GET route for bookings
+app.get('/data/bookings', ensureAuthenticated, async (req, res) => {
+    try {
+        const db = mongodb.getDatabase().db('final');
+        const data = await db.collection('bookings').find().toArray();
+        res.status(200).json({ message: 'GET request successful', data });
+    } catch (err) {
+        console.error('GET Error:', err);
+        res.status(500).json({ error: 'An internal server error occurred.' });
+    }
+});
+
+// Public GET route for packages
+app.get('/data/packages', async (req, res) => {
+    try {
+        const db = mongodb.getDatabase().db('final');
+        const data = await db.collection('packages').find().toArray();
+        res.status(200).json({ message: 'GET request successful', data });
+    } catch (err) {
+        console.error('GET Error:', err);
+        res.status(500).json({ error: 'An internal server error occurred.' });
+    }
+});
+
+// Protected GET route for other collections
+app.get('/data/:collection', ensureAuthenticated, async (req, res) => {
+    try {
+        const collectionName = req.params.collection;
+        const db = mongodb.getDatabase().db('final');
+        const data = await db.collection(collectionName).find().toArray();
+        res.status(200).json({ message: 'GET request successful', data });
+    } catch (err) {
+        console.error('GET Error:', err);
         res.status(500).json({ error: 'An internal server error occurred.' });
     }
 });
@@ -156,10 +216,11 @@ app.use((err, req, res, next) => {
 // Initialize MongoDB Connection and Start Server
 mongodb.initDb((err) => {
     if (err) {
-        console.log(err);
+        console.error('Database connection error:', err); // Debug log for database connection
     } else {
+        console.log('Database connected successfully'); // Debug log for successful connection
         app.listen(PORT, () => {
-            console.log(`Database is listening and Node.js server is running on port ${PORT}`);
+            console.log(`Node.js server is running on port ${PORT}`);
         });
     }
 });
