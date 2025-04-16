@@ -16,7 +16,7 @@ router.post('/', ensureAuthenticated,
         body('firstName').isAlpha().withMessage('First name is required'),
         body('lastName').isAlpha().withMessage('Last name is required'),
         body('email').isEmail().withMessage('Valid email is required'),
-        body('position').isAlpha().withMessage('Position is required')
+        body('position').matches(/^[a-zA-Z\s]+$/).withMessage('Position must contain only alphabetic characters and spaces')
     ], staffController.createStaff);
 
 router.put('/:id', ensureAuthenticated,
@@ -26,7 +26,7 @@ router.put('/:id', ensureAuthenticated,
         body('firstName').isAlpha().withMessage('First name is required'),
         body('lastName').isAlpha().withMessage('Last name is required'),
         body('email').isEmail().withMessage('Valid email is required'),
-        body('position').isAlpha().withMessage('Position is required')
+        body('position').matches(/^[a-zA-Z\s]+$/).withMessage('Position must contain only alphabetic characters and spaces')
     ], staffController.updateStaff);
 
 router.delete('/:id', ensureAuthenticated, staffController.deleteStaff);

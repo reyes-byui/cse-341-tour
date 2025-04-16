@@ -7,7 +7,8 @@ GET http://localhost:3000/packages
 GET http://localhost:3000/packages/67fd9369849a22a1025b2a6c
 
 ###
-GET http://localhost:3000/localhost:3000/packages/67fd9369849a22a1025b2a6c
+GET http://localhost:3000/promotions
+
 ###
 POST http://localhost:3000/staff HTTP/1.1
 Content-Type: application/json
