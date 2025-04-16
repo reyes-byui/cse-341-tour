@@ -351,7 +351,9 @@
                 "email": { "type": "string", "example": "johndoe@example.com" },
                 "price": { "type": "number", "example": 1200 },
                 "discount": { "type": "number", "example": 100 },
-                "paymentStatus": { "type": "string", "example": "Paid" }
+                "paymentStatus": { "type": "string", "example": "Paid" },
+                "startDate": { "type": "string", "example": "01/01/2025" },
+                "endDate": { "type": "string", "example": "01/10/2025" }
               }
             }
           }
@@ -420,7 +422,9 @@
                 "email": { "type": "string", "example": "johndoe@example.com" },
                 "price": { "type": "number", "example": 1200 },
                 "discount": { "type": "number", "example": 100 },
-                "paymentStatus": { "type": "string", "example": "Paid" }
+                "paymentStatus": { "type": "string", "example": "Paid" },
+                "startDate": { "type": "string", "example": "01/01/2025" },
+                "endDate": { "type": "string", "example": "01/10/2025" }
               }
             }
           }
