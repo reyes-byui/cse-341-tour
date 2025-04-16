@@ -37,7 +37,7 @@ const createBooking = async (req, res) => {
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { firstName, lastName, email, price, discount, paymentStatus, packageCode } = req.body;
+        const { firstName, lastName, email, price, discount, paymentStatus, packageCode, startDate, endDate } = req.body;
 
         const bookingData = {
             firstName,
@@ -46,7 +46,9 @@ const createBooking = async (req, res) => {
             price,
             discount,
             paymentStatus,
-            packageCode
+            packageCode,
+            startDate,
+            endDate
         };
 
         try {
@@ -66,7 +68,7 @@ const updateBooking = async (req, res) => {
         }
 
         const bookingId = req.params.id;
-        const { packageCode, firstName, lastName, email, price, discount, paymentStatus } = req.body;
+        const { firstName, lastName, email, price, discount, paymentStatus, packageCode, startDate, endDate } = req.body;
 
         const bookingData = {
             firstName,
@@ -75,7 +77,9 @@ const updateBooking = async (req, res) => {
             price,
             discount,
             paymentStatus,
-            packageCode
+            packageCode,
+            startDate,
+            endDate
         };
 
         try {
