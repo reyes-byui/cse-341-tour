@@ -2,7 +2,7 @@ const express = require('express');
 const { body } = require('express-validator'); 
 const router = express.Router();
 const { ensureAuthenticated } = require('../middleware/auth');
-const { queryDb } = require('../data/database'); // Import queryDb from database.js
+const { queryDb } = require('../data/database'); // Ensure this import is correct
 
 const bookingsController = require('../controllers/bookingsController');
 

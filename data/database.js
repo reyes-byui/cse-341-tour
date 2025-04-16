@@ -30,4 +30,11 @@ const getDb = () => {
     return _db;
 };
 
-module.exports = { initDb, getDb };
+const queryDb = async ({ collection, filter }) => {
+    if (!_db) {
+        throw new Error('Database not initialized!');
+    }
+    return _db.collection(collection).find(filter).toArray();
+};
+
+module.exports = { initDb, getDb, queryDb };
