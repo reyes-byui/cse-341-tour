@@ -24,13 +24,13 @@ const getSingle = async (req, res) => {
 
         try {
             const db = mongodb.getDb();
-            const package = await db.collection('packages_trash').findOne({ _id: new ObjectId(packageId) });
+            const packageData = await db.collection('packages_trash').findOne({ _id: new ObjectId(packageId) });
 
-            if (!package) {
+            if (!packageData) {
                 return res.status(404).json({ message: 'Package not found in trash' });
             }
 
-            res.status(200).json(package);
+            res.status(200).json(packageData);
         } catch (error) {
             res.status(500).json({ message: 'Error retrieving package from trash', error });
         }
@@ -47,13 +47,13 @@ const recoverPackage = async (req, res) => {
 
         try {
             const db = mongodb.getDb();
-            const package = await db.collection('packages_trash').findOne({ _id: new ObjectId(packageId) });
+            const packageData = await db.collection('packages_trash').findOne({ _id: new ObjectId(packageId) });
 
-            if (!package) {
+            if (!packageData) {
                 return res.status(404).json({ message: 'Package not found in trash' });
             }
 
-            await db.collection('packages').insertOne({ ...package, restoredAt: new Date() });
+            await db.collection('packages').insertOne({ ...packageData, restoredAt: new Date() });
 
             await db.collection('packages_trash').deleteOne({ _id: new ObjectId(packageId) });
 

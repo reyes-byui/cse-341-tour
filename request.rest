@@ -1,13 +1,13 @@
 GET http://localhost:3000
 
 ###
-GET http://localhost:3000/staff
+GET http://localhost:3000/packages-trash
 
 ###
 GET http://localhost:3000/packages/67f7a7dce1ff6475709bfceb
 
 ###
-PUT http://localhost:3000/packages/67f7a7dce1ff6475709bfceb HTTP/1.1
+PUT http://localhost:3000/promotions/67fcd18786bceba8f9d9847e HTTP/1.1
 Content-Type: application/json
 
 {

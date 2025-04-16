@@ -224,3 +224,5 @@ mongodb.initDb((err) => {
         });
     }
 });
+
+module.exports = app; // Export the app instance for testing

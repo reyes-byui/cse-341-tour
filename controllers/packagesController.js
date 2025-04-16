@@ -102,13 +102,13 @@ const deletePackage = async (req, res) => {
 
     try {
         const db = mongodb.getDb();
-        const package = await db.collection('packages').findOne({ _id: new ObjectId(packageId) });
+        const packageData = await db.collection('packages').findOne({ _id: new ObjectId(packageId) });
 
-        if (!package) {
+        if (!packageData) {
             return res.status(404).json({ message: 'Package not found' });
         }
 
-        await db.collection('packages_trash').insertOne({ ...package, deletedAt: new Date() });
+        await db.collection('packages_trash').insertOne({ ...packageData, deletedAt: new Date() });
 
         await db.collection('packages').deleteOne({ _id: new ObjectId(packageId) });
 
