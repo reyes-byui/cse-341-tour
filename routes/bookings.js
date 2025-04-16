@@ -2,7 +2,7 @@ const express = require('express');
 const { body } = require('express-validator'); 
 const router = express.Router();
 const { ensureAuthenticated } = require('../middleware/auth');
-const db = require('../db'); // Import your database connection
+const { queryDb } = require('../data/database'); // Import queryDb from database.js
 
 const bookingsController = require('../controllers/bookingsController');
 
@@ -18,13 +18,13 @@ router.post('/', ensureAuthenticated, [
     body('discount').isFloat({ min: 0, max: 100 }).withMessage('Discount must be a percentage between 0 and 100'),
     body('paymentStatus').isIn(['paid', 'unpaid']).withMessage('Payment status must be either "paid" or "unpaid"'),
     body('packageCode').custom(async (value) => {
-        const packageQuery = 'SELECT 1 FROM packages WHERE packageCode = $1';
-        const promotionQuery = 'SELECT 1 FROM promotions WHERE packageCode = $1';
+        const packageQuery = { collection: 'packages', filter: { packageCode: value } };
+        const promotionQuery = { collection: 'promotions', filter: { packageCode: value } };
 
-        const packageExists = await db.query(packageQuery, [value]);
-        const promotionExists = await db.query(promotionQuery, [value]);
+        const packageExists = await queryDb(packageQuery);
+        const promotionExists = await queryDb(promotionQuery);
 
-        if (packageExists.rowCount === 0 && promotionExists.rowCount === 0) {
+        if (packageExists.length === 0 && promotionExists.length === 0) {
             throw new Error('Package code does not exist in packages or promotions');
         }
         return true;
@@ -42,13 +42,13 @@ router.put('/:id', ensureAuthenticated, [
     body('discount').isFloat({ min: 0, max: 100 }).withMessage('Discount must be a percentage between 0 and 100'),
     body('paymentStatus').isIn(['paid', 'unpaid']).withMessage('Payment status must be either "paid" or "unpaid"'),
     body('packageCode').custom(async (value) => {
-        const packageQuery = 'SELECT 1 FROM packages WHERE packageCode = $1';
-        const promotionQuery = 'SELECT 1 FROM promotions WHERE packageCode = $1';
+        const packageQuery = { collection: 'packages', filter: { packageCode: value } };
+        const promotionQuery = { collection: 'promotions', filter: { packageCode: value } };
 
-        const packageExists = await db.query(packageQuery, [value]);
-        const promotionExists = await db.query(promotionQuery, [value]);
+        const packageExists = await queryDb(packageQuery);
+        const promotionExists = await queryDb(promotionQuery);
 
-        if (packageExists.rowCount === 0 && promotionExists.rowCount === 0) {
+        if (packageExists.length === 0 && promotionExists.length === 0) {
             throw new Error('Package code does not exist in packages or promotions');
         }
         return true;
