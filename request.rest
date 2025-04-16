@@ -1,13 +1,27 @@
 GET http://localhost:3000
 
 ###
-GET http://localhost:3000/packages
+GET http://localhost:3000/staff
 
 ###
-GET http://localhost:3000/packages/67fd9369849a22a1025b2a6c
+GET http://localhost:3000/packages/67f7a7dce1ff6475709bfceb
 
 ###
-GET http://localhost:3000/promotions
+PUT http://localhost:3000/packages/67f7a7dce1ff6475709bfceb HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "5D/4N IN HO CHI MINH",
+  "continent": "Asia",
+  "country": "Vietnam",
+  "price": "3200",
+  "pax": "2",
+  "inclusion": "all day transfers, hotel and breakfast, private tour guide",
+  "description": "  • War Remnants Museum  •  Cu Chi Tunnels  •  Independence Palace  •  Notre-Dame Cathedral Basilica of Saigon • Ben Thanh Market",
+  "availability": "10",
+  "packageCode": "HCM2028"
+}
+
 
 ###
 POST http://localhost:3000/staff HTTP/1.1

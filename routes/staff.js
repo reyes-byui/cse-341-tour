@@ -11,21 +11,21 @@ router.get('/:id', ensureAuthenticated, staffController.getSingle);
 
 router.post('/', ensureAuthenticated,
     [
-        body('userName').isAlphanumeric().withMessage('Username is required'),
-        body('password').isAlphanumeric().withMessage('Password is required'),
-        body('firstName').isAlpha().withMessage('First name is required'),
-        body('lastName').isAlpha().withMessage('Last name is required'),
-        body('email').isEmail().withMessage('Valid email is required'),
+        body('userName').isAlphanumeric().withMessage('Username is must be alphanumeric. Special Characters are not allowed'),
+        body('password').isAlphanumeric().withMessage('Password is must be alphanumeric. Special Characters are not allowed'),
+        body('firstName').isAlpha().withMessage('First name is required. Special Characters are not allowed'),
+        body('lastName').isAlpha().withMessage('Last name is required. Special Characters are not allowed'),
+        body('email').isEmail().withMessage('Valid email is required.'),
         body('position').matches(/^[a-zA-Z\s]+$/).withMessage('Position must contain only alphabetic characters and spaces')
     ], staffController.createStaff);
 
 router.put('/:id', ensureAuthenticated,
     [
-        body('userName').isAlphanumeric().withMessage('Username is required'),
-        body('password').isAlphanumeric().withMessage('Password is required'),
-        body('firstName').isAlpha().withMessage('First name is required'),
-        body('lastName').isAlpha().withMessage('Last name is required'),
-        body('email').isEmail().withMessage('Valid email is required'),
+        body('userName').isAlphanumeric().withMessage('Username is must be alphanumeric. Special Characters are not allowed'),
+        body('password').isAlphanumeric().withMessage('Password is must be alphanumeric. Special Characters are not allowed'),
+        body('firstName').isAlpha().withMessage('First name is required. Special Characters are not allowed'),
+        body('lastName').isAlpha().withMessage('Last name is required. Special Characters are not allowed'),
+        body('email').isEmail().withMessage('Valid email is required.'),
         body('position').matches(/^[a-zA-Z\s]+$/).withMessage('Position must contain only alphabetic characters and spaces')
     ], staffController.updateStaff);
 
