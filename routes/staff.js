@@ -13,8 +13,8 @@ router.post('/', ensureAuthenticated,
     [
         body('userName').isAlphanumeric().withMessage('Username is must be alphanumeric. Special Characters are not allowed'),
         body('password').isAlphanumeric().withMessage('Password is must be alphanumeric. Special Characters are not allowed'),
-        body('firstName').isAlpha().withMessage('First name is required. Special Characters are not allowed'),
-        body('lastName').isAlpha().withMessage('Last name is required. Special Characters are not allowed'),
+        body('firstName').matches(/^[a-zA-Z\s]+$/).withMessage('First name must contain only alphabetic characters and spaces'),
+        body('lastName').matches(/^[a-zA-Z\s]+$/).withMessage('Last name must contain only alphabetic characters and spaces'),
         body('email').isEmail().withMessage('Valid email is required.'),
         body('position').matches(/^[a-zA-Z\s]+$/).withMessage('Position must contain only alphabetic characters and spaces')
     ], staffController.createStaff);
@@ -23,8 +23,8 @@ router.put('/:id', ensureAuthenticated,
     [
         body('userName').isAlphanumeric().withMessage('Username is must be alphanumeric. Special Characters are not allowed'),
         body('password').isAlphanumeric().withMessage('Password is must be alphanumeric. Special Characters are not allowed'),
-        body('firstName').isAlpha().withMessage('First name is required. Special Characters are not allowed'),
-        body('lastName').isAlpha().withMessage('Last name is required. Special Characters are not allowed'),
+        body('firstName').matches(/^[a-zA-Z\s]+$/).withMessage('First name must contain only alphabetic characters and spaces'),
+        body('lastName').matches(/^[a-zA-Z\s]+$/).withMessage('Last name must contain only alphabetic characters and spaces'),
         body('email').isEmail().withMessage('Valid email is required.'),
         body('position').matches(/^[a-zA-Z\s]+$/).withMessage('Position must contain only alphabetic characters and spaces')
     ], staffController.updateStaff);
