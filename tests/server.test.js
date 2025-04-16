@@ -1,5 +1,27 @@
 const request = require('supertest');
 const app = require('../server');
+const mongodb = require('../data/database');
+
+jest.mock('../data/database', () => ({
+    initDb: jest.fn((callback) => callback(null)),
+    getDb: jest.fn(() => ({
+        collection: jest.fn().mockReturnValue({
+            find: jest.fn().mockReturnValue({ toArray: jest.fn().mockResolvedValue([]) }),
+            insertOne: jest.fn().mockResolvedValue({}),
+            updateOne: jest.fn().mockResolvedValue({ matchedCount: 1 }),
+        }),
+    })),
+}));
+
+afterAll(async () => {
+    const db = mongodb.getDb();
+    if (db && db.close) {
+        await db.close(); 
+    }
+    if (app.server) {
+        app.server.close(); 
+    }
+});
 
 describe('API Endpoints', () => {
     it('should return 200 for the root route', async () => {
@@ -19,5 +41,4 @@ describe('API Endpoints', () => {
         expect(res.statusCode).toBe(404);
         expect(res.body.error).toBe('Route not found');
     });
-
 });
